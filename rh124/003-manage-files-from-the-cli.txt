@@ -4,7 +4,7 @@ INTRODUCTION TO FILESYSTEM
 	Ans:	It is a system used by an operating system to manage files.
 	The system controls how data is saved or retrieved.
 
- - Operatin system store files and directories in an organized and structured way
+ - Operating system store files and directories in an organized and structured way
 	Examples:
 		* System configuration file	= Folder A
 		* User files			= Folder B
@@ -49,15 +49,16 @@ FILE MAINTENANCE COMMANDS
 			$ rm -Rf [dirname] = will forcefully remove sub-dir and it's contents as well.
 
 	* chgrp	= change the group of the file
-			$ chgrp root [filename]
+			$ chgrp [groupname] [filename]
 
 	* chown	= change the ownership of the file
-			$ chown username [filename]
+			$ chown [username] [filename]
+				or
 			$ chown username:group [filename]
 
 SOFT AND HARD LINKS
 
-	* inode		= pointer or number of a file on the hard disk.
+	* inode		= pointer or number of a file on a hard disk.
 	* soft link	= link will be removed	if file is removed or renamed.
 	* hard link	= deleting renaming or moving the original file will not affect the hard link
 
@@ -73,8 +74,42 @@ SOFT AND HARD LINKS
  - To find the inode
 	$ ls -ltri
 
+INPUT AND OUTPUT REDIRECTS
 
+ - There are 3 redirects in Linux
 
+	1. Standard input (stdin) and it has file descriptor number as 0
+	2. Standard output (stdout) and it has file descriptor number as 1
+	3. Standard error (stderr) and it has file descriptor number as 2
 
+ - Output (stdout) - 1
+	* By default when running a command its output goes to the terminal
+	* The output of a command can be routed to a file using > symbol
+		* E.g. 	ls -l > listings
+			pwd > findpath
 
-	
+	* If using the same file for additional output or to append to the same file then use >>
+		* E.g	ls -la >> listings
+			echo "Hello World" >> findpath
+
+ - Input (stdin) - 0
+	* Input is used when feeding file contents to a file
+		E.g	cat < listings
+			mail -s "Office memo" allusers@abc.com < memoletter
+
+ - Error (stderr) - 2
+	* When a command is executed we use a keyboard and that is also considered (stdin -0)
+	* That command output goes on the monitor and that output is (stdout -1)
+	* If the command produced any error on the screen then it is considered (stderr -2)
+		* We can use redirects to route error from the screen
+			* E.g	ls -l /root 2> errorfile
+				telnet localhost 2> errorfile
+
+PIPES
+
+ - A pipe is used by the shell to connect the output of one command directly to the input of another command.
+
+	* The symbol for a pipe is the vertical bar ( | ). The command syntax is:
+		$ command1 [arguments] | command2 [arguments]
+		$ ls -l | more
+		$ ll | tail -1
