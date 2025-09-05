@@ -1,8 +1,8 @@
 INTRODUCTION TO FILESYSTEM
 
  - What is a filesystem?
-	Ans:	It is a system used by an operating system to manage files.
-	The system controls how data is saved or retrieved.
+	Ans:	It is a system used by an operating system to manage files
+	The system controls how data is saved or retrieved
 
  - Operating system store files and directories in an organized and structured way
 	Examples:
@@ -11,7 +11,7 @@ INTRODUCTION TO FILESYSTEM
 		* Log fies			= Folder C
 		* Commands or scripts		= Folder D
 
- - There are many different types of filesystems.
+ - There are many different types of filesystems
 	e.g. ext3, ext4, xfs, NTFS, FAT etc.
 
 DIRECTORY LISTING ATTRIBUTES
@@ -46,7 +46,7 @@ FILE MAINTENANCE COMMANDS
 			$ rmdir [dirname]
 			$ rmdir -r [dirname]
 			NOTE:
-			$ rm -Rf [dirname] = will forcefully remove sub-dir and it's contents as well.
+			$ rm -Rf [dirname] = will forcefully remove sub-dir and it's contents as well
 
 	* chgrp	= change the group of the file
 			$ chgrp [groupname] [filename]
@@ -60,7 +60,7 @@ SOFT AND HARD LINKS
 
 	* inode		= pointer or number of a file on a hard disk.
 	* soft link	= link will be removed	if file is removed or renamed.
-	* hard link	= deleting renaming or moving the original file will not affect the hard link
+	* hard link	= deleting renaming or moving the original file will not affect the hard link.
 
  - create soft and hard links.
 	$ ln
@@ -71,7 +71,7 @@ SOFT AND HARD LINKS
 		$ cd /tmp
 		$ ln -s /home/username/[filename]
 
- - To find the inode
+ - To find the inode.
 	$ ls -ltri
 
 INPUT AND OUTPUT REDIRECTS
@@ -107,7 +107,7 @@ INPUT AND OUTPUT REDIRECTS
 
 PIPES
 
- - A pipe is used by the shell to connect the output of one command directly to the input of another command.
+ - A pipe is used by the shell to connect the output of one command directly to the input of another command
 
 	* The symbol for a pipe is the vertical bar ( | ). The command syntax is:
 		$ command1 [arguments] | command2 [arguments]
