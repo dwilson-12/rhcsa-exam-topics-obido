@@ -1,0 +1,25 @@
+WINDOWS TO LINUX, USE PUTTY CLIENT.
+
+Steps:
+1. Get the ip address first of the machine you want to access.
+	Commands:
+		$ ifconfig
+		$ ip addr
+2. Type the IP address of the linux machine in the putty client.
+	login: username
+	password:
+
+LINUX TO LINUX ACCESS, USE THE SSH COMMAND.
+
+Steps:
+1. Get the IP Address first.
+	Commands:
+		$ ifconfig
+		$ ip addr
+2. To access the remote machine.
+	Commands:
+		$ ssh -l [username] [ip address]
+
+
+
+
