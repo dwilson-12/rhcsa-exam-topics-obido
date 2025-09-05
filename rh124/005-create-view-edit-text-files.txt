@@ -1,0 +1,32 @@
+Linux File Editor
+
+ - A text editor is a program which enables you to create and manipulate data (text) in a Linux file
+ - There are several standart text editors available on most Linux systems:
+	* vi	- Visual editor
+	* ed	- Standard line editor
+	* ex	- Extended line editor
+	* emacs	- A full screen editor
+	* pico	- Beginner's editor
+	* vim	- Advance version of vi
+
+Introduction to vi Editor
+
+ - vi supplies commands for:
+	* Inserting and deleting text
+	* Replacing text
+	* Moving around the file
+	* Finding and substituting strings
+	* Cutting and pasting text
+
+ - Most common keys:
+	* i	- insert
+	* Esc	- escape out of any mode
+	* a	- automatically advance to the next space
+	* r	- replace
+	* dd	- delete line
+	* u	- undo deleted line
+	* x	- remove a letter
+	* o	- create new line and automaticaly get into INSERT MODE
+	* :q!	- quit without saving
+	* :wq!	- quit and save or shift+z+z
+	* /	- /keyword. It will bring you to the exact word
