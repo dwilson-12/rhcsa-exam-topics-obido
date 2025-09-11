@@ -72,6 +72,8 @@ The /etc/login.defs file
 The chage Command
 Set parameters around the password
 
+Switch Users and Sudo Access
+
 * Sudo commands allows the ordinary user to run root level commands
 
 Commands
