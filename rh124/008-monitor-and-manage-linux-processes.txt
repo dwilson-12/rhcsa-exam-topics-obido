@@ -15,19 +15,19 @@ Monitor and Manage Process
 
 Here are a few monitoring commands to manage system resources:
 
-	* df command report file system disk space usage
+	* [df] command report file system disk space usage
 		# shows human readable format & system file types
 		$ df -hT
 
-	* du command estimate file space usage
+	* [du] command estimate file space usage
 		# human readable format | sort size in reverse order | display contents of file in terminal
 		$ du -h / | sort -nr | more
 		
-	* uptime command tells how long the system has been running
+	* [uptime] command tells how long the system has been running
 		# if the system is running slower response time this command is useful to see if the load is high
 		$ uptime
 
-	* top command displays Linux process
+	* [top] command displays Linux process
 		# This command shows the summary information of the system and the list of process of threads which are currently managed by the Linux Kernel.
 		# When the top command is executed then it goes into interactive mode and you can exit out by hitting q
 		$ top -u username	= shows task/process by user owned
@@ -51,20 +51,20 @@ Here are a few monitoring commands to manage system resources:
 
 		NOTE: Top command refreshes the information every 3 seconds
 			
-	* free command displays amount of free and used memory in the system
+	* [free] command displays amount of free and used memory in the system
 		# display the amount of memory in mebibytes
 		$ free -m
 
-	* lsof command list of open files
+	* [lsof] command list of open files
 		$ lsof
 
-	* tcpdump command dump traffic on a network
+	* [tcpdump] command dump traffic on a network
 		Example usage:
 		# get the name of your interface and see all the traffic that are flowing over on that interface.
 		$ ip a
 		$ tcpdump -i [interface name]
 
-	* netstat command print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships
+	* [netstat] command print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships
 		# -rnv shows routes or traffics which gateway going through
 		$ netstat -rnv
 		# shows connections information
@@ -72,15 +72,15 @@ Here are a few monitoring commands to manage system resources:
 		# shows tcp traffic
 		$ netstat -at
 
-	* ps command reports a snapshot of the current processes
+	* [ps] command reports a snapshot of the current processes
 		# display all the process running
 		$ ps  -ef
 		$ ps -ef | grep top
 
-	* kill command terminates a process
+	* [kill] command terminates a process
 		$ kill [PID]
 		$ kill -9 [PID]
 
-	* vmstat command report virtual memory statistics
-	* iostat command reports CPU statistics and input/output statistics for devices and partitions
-	* iftop
+	* [vmstat] command report virtual memory statistics
+	* [iostat] command reports CPU statistics and input/output statistics for devices and partitions
+	* [iftop]
