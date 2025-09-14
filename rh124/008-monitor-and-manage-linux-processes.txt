@@ -3,9 +3,9 @@ Application and jobs
 * Application	= Service (NTP, NFS, rsyslog, Apache)
 * Script	= Shell scripts or Commands are list of instructions eg. adduser, cd, pwd, etc.
 * Process	= When you run an application it generates process
-* Daemon	= runs continuely until interrupted (something continuesly run in the background)
+* Daemon	= runs continuely until interrupted (something continuously run in the background)
 * Thread	= Service --> Process --> thread1 --> thread2 and so on
-* Job		= Run a service or process at a schedule time
+* Job		= Run a service or process at a scheduled time
 
 Monitor and Manage Process
 
@@ -26,6 +26,7 @@ Here are a few monitoring commands to manage system resources:
 	* uptime command tells how long the system has been running
 		# if the system is running slower response time this command is useful to see if the load is high
 		$ uptime
+
 	* top command displays Linux process
 		# This command shows the summary information of the system and the list of process of threads which are currently managed by the Linux Kernel.
 		# When the top command is executed then it goes into interactive mode and you can exit out by hitting q
@@ -54,24 +55,32 @@ Here are a few monitoring commands to manage system resources:
 		# display the amount of memory in mebibytes
 		$ free -m
 
-	* lsof command list open file
+	* lsof command list of open files
 		$ lsof
 
-	* tcpdump
-	* netstat
-	* ps
-	* kill
-	* vmstat
-	* iostat
+	* tcpdump command dump traffic on a network
+		Example usage:
+		# get the name of your interface and see all the traffic that are flowing over on that interface.
+		$ ip a
+		$ tcpdump -i [interface name]
+
+	* netstat command print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships
+		# -rnv shows routes or traffics which gateway going through
+		$ netstat -rnv
+		# shows connections information
+		$ netstat -au
+		# shows tcp traffic
+		$ netstat -at
+
+	* ps command reports a snapshot of the current processes
+		# display all the process running
+		$ ps  -ef
+		$ ps -ef | grep top
+
+	* kill command terminates a process
+		$ kill [PID]
+		$ kill -9 [PID]
+
+	* vmstat command report virtual memory statistics
+	* iostat command reports CPU statistics and input/output statistics for devices and partitions
 	* iftop
-
-
-
-Process/Service Commands
-
-$ systemctl or service	= Control the systemd system and service manager
-$ ps			= allows you to see what are the processes running in linux system
-$ top			= see processes in system depending on which process you wanted to see first base on load.
-$ kill			= kills the process
-$ crontab		= used to schedule applications, process, services to execute and become job
-$ at 			= like crontab, but it schedules the process one time bases or as adhoc process
