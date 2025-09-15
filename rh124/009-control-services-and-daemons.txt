@@ -1,0 +1,30 @@
+Control Services and Daemons
+
+ - Service or application when started creates processes and when those processes run continuously in the background, they become daemons
+ - Most services are daemons
+ - Services are controlled by systemctl
+ - Systemctl is a systemd utility that is responsible for controlling the systemd system and service manager
+ - Systemd is a collection of system management daemons, utilities, and libraries which serves as a replacement of System V init daemon
+ - Systemd is the parent process of most of the daemons
+ - The command to control services = systemctl.
+
+# Check if systemd installed in your system
+$ systemctl --version
+
+# Check if systemd is running
+$ ps -ef | grep systemd
+
+# Check all running services
+$ systemctl --all
+
+# To check the status, start, stop and restart a service
+$ systemctl status|start|stop|restart application.service
+
+# To reload the configuration of a service
+$ systemctl reload application.service
+
+# To enable or disable a service at boot time
+$ systemctl enable|disable application.service
+
+# To enable or disable a service completely (at boot or manually)
+$ systemctl mask|unmask application.service
