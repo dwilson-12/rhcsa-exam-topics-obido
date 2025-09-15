@@ -1,0 +1,68 @@
+SSH (secure shell)
+	* Provides you with an interface to the Linux system.
+	  It takes in your commands and translate them to kermel to manage hardware.
+	* Open SSH is a package/software
+	* Its service daemon is sshd
+	* SSH port #22
+
+* Hardware < Kernel < Shell (bash, csh, ksh) < Utilities (ls, pwd, cp)
+
+
+* SSH itself is secure, meaning communication through SSH is always encrypted, but there should be some additional configuration can be done to make it more secure
+* Following are the most common configuration an administrator should take to secure SSH:
+
+	- Configure Idle Timeout Interval
+	  # Avoid having an unattended SSH session, you can set an Idle timeout interval
+
+		* Become root
+		* Edit your /etc/ssh/sshd_config file (make backup file first) and add the following line:
+		* # Setting time interval
+		* ClientAlive Interval 600
+		* ClientAliveCountMax 0
+		* $ systemctl restart sshd
+
+	  # The idle timeout interval you are setting is in seconds (600 secs = 10 minutes). Once the interval has passed, 
+	    the idle user will be automatically logged out
+
+
+	- Disable root login
+	  # Disabling root login should be one of the measures you should take when setting up the system for the first time. 
+	    It disable any user to login to the system with root account.
+
+		Steps:
+		1. Become root
+		2. Edit your /etc/ssh/sshd_config file and replace
+		3. PermitRootLogin yes to no PermitRootLogin no
+		4. # systemctl restart sshd
+
+
+	- Disable Empty Passwords
+	  # You need to prevent remote logins from accounts with empty passwords for added security.
+
+		Steps:
+		1. Become root
+		2. Edit your /etc/ssh/sshd_config file and remove # from the following line
+		3. PermitEmpty Passwords no
+		4. # systemctl restart sshd
+
+
+	- Limit Users' SSH Access
+	  # To provide another layer of security, you should limit your SSH logins to only certain users who need remote access.
+
+		Steps:
+		1. Become root
+		2. Edit your /etc/ssh/sshd_config file and add
+		3. # Allow the following user's only
+		4. AllowUsers user1 user2
+		5. # systemctl restart sshd
+
+
+	- Use a different port
+	  # By default SSH port runs on 22. 
+	    Most hackers looking for any open SSH servers will look for port 22 and changing can make the system much more secure.
+
+		Steps:
+		1. Become root
+		2. Edit your /etc/ssh/sshd_config file and remove # from the following line and change the port number
+		3. Port 22
+		4. # systemctl restart sshd
