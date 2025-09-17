@@ -66,3 +66,31 @@ SSH (secure shell)
 		2. Edit your /etc/ssh/sshd_config file and remove # from the following line and change the port number
 		3. Port 22
 		4. # systemctl restart sshd
+
+
+	- Access Remote Server without Password (SSH-Keys)
+	  # Two reasons to access a remote machine:
+		- Repetitive logins
+		- Automation through scripts
+	  # Keys are generated at user level
+		- iafzal
+		- root
+
+		Client
+		Steps:
+		1. Generate the key
+		   # ssh-keygen
+		2. Copy the Key to the server
+		   # ssh-copy-id root@192.168.1.x
+		3. Login from client to server
+		   # ssh root@192.168.1.x
+		   # ssh -l root@192.168.1.x
+
+		Verify
+		Remote server
+		# cd /root/.ssh/
+		# ls -l
+		# cat authorized_keys
+
+		4. login to the remote host (you should be able to login without password)
+		   # ssh root@192.168.1.x
