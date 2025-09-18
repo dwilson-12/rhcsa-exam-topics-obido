@@ -1,0 +1,35 @@
+Linux is everywhere, cloud, smart phones, airplanes, smart TV, gadgets etc.
+
+* Open sourse
+
+	- Open-source software is computer software that is released under a license in which the copyright holder grants users the rights to use, study, change, and distribute the software and its source code to anyone and for any purpose (Wikipedia)
+	- Open source software is developed in a decentralized and collaborative way, relying on peer review and community production. 
+	  Open source software is often cheaper, more flexible, and has more longevity than its proprietary peers because it is developed by communities rather than a single author or company.
+	- Linux is a free, open source operating system (OS), released under the GNU General Public License (GPL). 
+	  It's also become the largest open source software project in the world.
+	- Red Hat Enterprise Linux is built from open source components. 
+	  The kernel itself and the supporting software are all open source. 
+	  However, Red Hat has built infrastructure, support, and a suite of services that will let you license their branded version of enterprise Linux and use it in production.
+
+* Linux distribution
+
+	- A Linux distribution is an operating system composed of linux kernel, GNU tools, additional software and a package manager
+
+	- Example of Linux distribution OS
+
+		- Redhat
+		- CentOS
+		- Ubuntu
+		- Suse
+		- Fedora
+		- Kali
+
+* Red Hat Linux
+
+	- Red Hat is one of the leading contributors to the Linux kernel and associated technologies in the greater open source community.
+	- IBM acquired Red hat in 2018 for $34billion.
+	- Product Lifecycle of 10 years.
+	- Download and use any supported version of the Red Hat Enterprise Linux software, meaning that you may upgrade to the latest version for no additional cost.
+	- Allows live kernel patching, avoiding the need for a system reboot.
+	- Access to Red Hat Enterprise Linux documentation.
+	- Access to Red Hat Customer Portal Labs.
