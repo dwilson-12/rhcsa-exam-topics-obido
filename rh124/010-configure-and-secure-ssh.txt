@@ -1,4 +1,5 @@
 SSH (secure shell)
+
 	* Provides you with an interface to the Linux system.
 	  It takes in your commands and translate them to kermel to manage hardware.
 	* Open SSH is a package/software
@@ -7,8 +8,8 @@ SSH (secure shell)
 
 * Hardware < Kernel < Shell (bash, csh, ksh) < Utilities (ls, pwd, cp)
 
-
 * SSH itself is secure, meaning communication through SSH is always encrypted, but there should be some additional configuration can be done to make it more secure
+
 * Following are the most common configuration an administrator should take to secure SSH:
 
 	- Configure Idle Timeout Interval

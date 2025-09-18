@@ -1,9 +1,8 @@
 Log Monitoring
 
-
 * Another and most important way of system administration is log monitor
 
-	- Log Dir	= /var/log
+	- log		= /var/log
 	- boot		= Logs about system boot / boot.log will rewrite if the system reboots
 	- chronyd	= newer version of NTP
 	- cron		= logs of scheduled crontab's are here
@@ -13,3 +12,71 @@ Log Monitoring
 	- httpd		= web server log
 
 	tail -f secure	= newest log at the bottom
+
+Maintain Accurate Time
+
+	* Maintain accurate system time is critical for log file analysis across multiple systems.
+	* Also having accurate time on a system is requirement for sensitive applications such as database in production environment.
+	* The network time protocol (NTP) is a standard way for machines to provide and synchronize the time to the NTP server.
+	* An NTP server is a dedicated machine/computer which responds to clients for time synchronization
+	* chronyd is a NTP service used for time synchronization in the newer Linux versions.
+
+	# Command to show system time/date
+		$ date
+
+	# Command for time/date and NTP setting
+		$ timedatectl
+
+	# To get help
+		$ timedatectl --help
+		$ man timedatectl
+
+	# To view list of time zone
+		$ timedatectl list-timezones
+
+	# To set a time zone
+		$ timedatectl set-timezone America/New_york
+
+	# To set time or to set time and date
+		$ timedatectl set-time HH:MM:SS
+		$ timedatectl set-time '2021-08-18 20:15:50'
+
+	# To enable NTP synchronization
+		$ timedatectl set-ntp true
+
+chronyd
+
+	* Purpose?		= Time synchronization
+	* Package name		= chronyd
+	* Config file		= /etc/chronyd.conf
+	* Log file		= /var/log/chronyd
+	* Service		= $ systemctl start/restart chronyd
+	* Program command	= chronyc
+
+	# check if there was a package
+
+		$ rpm -qa | grep chrony
+
+	# if you do not have chrony package installed then run:
+
+		$ dnf install chrony -y
+
+	# configure file
+
+		$ vi /etc/chrony.conf
+		# add this line
+		server 8.8.8.8
+		# start the service
+		NOTE: dont run ntpd and chronyd at the same time
+		$ systemctl status ntpd
+		$ systemctl stop ntpd
+		$ systemctl disable ntpd
+		$ systemctl status chronyd
+		$ systemctl start chronyd
+		$ systemctl enable chronyd
+
+	# chronyc will bring you to program mode
+
+		chronyc> help
+		chronyc> sources
+		chronyc> quit
