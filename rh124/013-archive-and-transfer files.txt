@@ -1,35 +1,38 @@
-tar
-gzip
-gzip -d OR gunzip
+Compress and Uncompress Files
 
-Purpose? If you have to transfer files from one computer to another computer or send it to someone the file size is not too large.
+* Purpose? If you have to transfer files from one computer to another computer or send it to someone if the file size is too large.
+* Commands:
+
+	$ tar
+	$ gzip
+	$ gunzip OR gzip -d
 
 * Examples:
 
-# tarring / archiving
+	# tarring / archiving
 
-	$ pwd
-	/home/user
-	$ tar cvf filename.tar /home/directory or.. tar cvf filename.tar . # put everything the files in filename.tar
+		$ pwd
+		/home/user
+		$ tar cvf filename.tar /home/directory or.. tar cvf filename.tar . # put everything the files in filename.tar
 
-# untar / extract files
+	# untar / extract files
 
-	$ mkdir newdirname
-	$ mv filename.tar newdirname
-	$ cd newdirname
-	$ tar xvf filename.tar
+		$ mkdir newdirname
+		$ mv filename.tar newdirname
+		$ cd newdirname
+		$ tar xvf filename.tar
 
-# compressing to reduced the file size
+	# compressing to reduced the file size
 
-	$ gzip filename.tar
+		$ gzip filename.tar
 
-# uncompress to back to it's original file size
+	# uncompress to back to it's original file size
 
-	$ gzip -d filename.tar.gz
+		$ gzip -d filename.tar.gz
 
-# remove the newly created directory
+	# remove the newly created directory
 	
-	$ rm -rf dirname
+		$ rm -rf dirname
 
 FTP - File Transfer Protocol
 
