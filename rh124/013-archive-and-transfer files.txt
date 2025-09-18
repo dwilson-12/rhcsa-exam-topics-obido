@@ -1,6 +1,6 @@
 Compress and Uncompress Files
 
-* Purpose? If you have to transfer files from one computer to another computer or send it to someone if the file size is too large.
+* Purpose? If you have to transfer large file size from one computer to another computer.
 * Commands:
 
 	$ tar
@@ -85,7 +85,7 @@ FTP - File Transfer Protocol
 	* Install FTP client on the client server
 
 		# Become root
-		# dnf install ftp
+		# dnf install ftp -y
 		# su - username or # exit
 		$ touch filename
 
