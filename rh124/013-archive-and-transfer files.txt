@@ -103,12 +103,12 @@ SCP - Secure Copy Protocol
   It is somewhat similar to the FTP, but it adds security and authentication.
 * Default SCP port = 22 (same as SSH)
 
-client ==> Server 	# client wants to copy a file over to server
-
 Usage:
 
-# Copy file from local host to a remote host SCP example
-$ scp filename username@ip_remothost:/home/userdir
+# Copy file from local host to a remote host
+	
+	$ scp thefilename username@ip_remothost:/home/userdir
 
-# From remote host to the local host /dir
-$ scp username@remotehost:filename /local/directory
+# To "pull" files from a remote server to your local machine using scp.
+
+	$ scp username@remotehost:/path/to/remote/file /path/to/local/destination
