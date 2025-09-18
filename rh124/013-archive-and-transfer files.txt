@@ -1,0 +1,111 @@
+tar
+gzip
+gzip -d OR gunzip
+
+Purpose? If you have to transfer files from one computer to another computer or send it to someone the file size is not too large.
+
+* Examples:
+
+# tarring / archiving
+
+	$ pwd
+	/home/user
+	$ tar cvf filename.tar /home/directory or.. tar cvf filename.tar . # put everything the files in filename.tar
+
+# untar / extract files
+
+	$ mkdir newdirname
+	$ mv filename.tar newdirname
+	$ cd newdirname
+	$ tar xvf filename.tar
+
+# compressing to reduced the file size
+
+	$ gzip filename.tar
+
+# uncompress to back to it's original file size
+
+	$ gzip -d filename.tar.gz
+
+# remove the newly created directory
+	
+	$ rm -rf dirname
+
+FTP - File Transfer Protocol
+
+	* The FTP is a standard network protocol used for the transfer of computer files between a client and server on a computer network.
+	* Protocol are set of rules used by computers to communicate.
+	* Default FTP Port  = 21
+	* The server or receiver should have the ftpd (port 21) service running.
+
+* Process to configure FTP
+
+	* Install and Configure FTP on the remote server
+		
+		Steps:
+
+		# Become root
+		# rpm -qa | grep ftp
+		# ping www.google.com
+		# dnf install vsftpd -y
+		# vi /etc/vsftpd/vsftpd.conf	(make a copy first)
+		
+		# Find the following lines and make the changes as shown below
+		## Disable anonymous login ##
+		/anonymous
+		anonymous_enable=NO
+
+		## Uncomment ##
+		/ascii
+		ascii_upload_enable=YES
+		ascii_download_enable=YES
+
+		## Uncomment - Enter your Welcome messege - This is optional ##
+		/ftpd
+		ftpd_banner=Welcome to blah FTP service.
+
+		## Add at the end of this file ##
+		shift+g
+		# Local time
+		use_localtime=YES
+		:wq!
+
+		# systemctl start vsftpd
+		# systemctl status vsftpd
+		# systemctl enable vsftpd
+		# systemctl stop firewalld (if in production environment you need to add the rule to allow port 21 as an incoming traffic)
+		# systemctl disable firewalld
+		# useradd [name] (if you don't have an account)
+		# exit
+		$ username@hostname
+
+	* Install FTP client on the client server
+
+		# Become root
+		# dnf install ftp
+		# su - username or # exit
+		$ touch filename
+
+		## Commands to transfer file to the FTP server:
+		$ ftp [ip address]
+		## Enter username and password
+		ftp> bin
+		ftp> hash
+		ftp> put filename
+		ftp> bye
+
+SCP - Secure Copy Protocol
+
+* The SCP helps to transfer computer files securely from a local to a remote host.
+  It is somewhat similar to the FTP, but it adds security and authentication.
+* Default SCP port = 22 (same as SSH)
+
+client ==> Server 	# client wants to copy a file over to server
+
+Usage:
+
+# Copy file from local host to a remote host SCP example
+$ scp filename username@ip_remothost:/home/userdir
+
+# From remote host to the local host /dir
+$ scp username@remotehost:filename /local/directory
