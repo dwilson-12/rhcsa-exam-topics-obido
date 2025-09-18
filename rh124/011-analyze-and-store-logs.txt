@@ -1,0 +1,15 @@
+Log Monitoring
+
+
+* Another and most important way of system administration is log monitor
+
+	- Log Dir	= /var/log
+	- boot		= Logs about system boot / boot.log will rewrite if the system reboots
+	- chronyd	= newer version of NTP
+	- cron		= logs of scheduled crontab's are here
+	- maillog	= has all the information about sendmail daemon
+	- secure	= records all log in and login out activity 
+	- messages	= monitor system activity/software, hardware info, application, and process (# grep -i error)
+	- httpd		= web server log
+
+	tail -f secure	= newest log at the bottom
