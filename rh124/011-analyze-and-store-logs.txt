@@ -3,7 +3,7 @@ Log Monitoring
 * Another and most important way of system administration is log monitor
 
 	- log		= /var/log
-	- boot		= Logs about system boot / boot.log will rewrite if the system reboots
+	- boot		= Logs about system boot /boot.log will rewrite if the system reboots
 	- chronyd	= newer version of NTP
 	- cron		= logs of scheduled crontab's are here
 	- maillog	= has all the information about sendmail daemon

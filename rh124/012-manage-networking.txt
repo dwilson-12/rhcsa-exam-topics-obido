@@ -1,0 +1,94 @@
+Static IP vs DHCP
+
+	* IP stands for internet protocol which is assigned to your computer so it can access the network.
+	  Private is assigned for internal communication and public is for internet/external communication.
+	* Static IP does not change
+	* Dynamic IP changes after system reboot
+
+	# To check the ip address
+		$ ip addr
+
+OS Network Components
+
+	* NIC		= Used to connect to LAN/WAN
+	* MAC address	= The hardcoded address of NIC
+	* Subnet mask	= The subnet mask indicates the boundary between the network and host parts of an IP address
+	* Gateway	= Used when you have to connect on the other networks ($ netstat -rnv)
+	* DNS		= Allows create record between hostname to IP and vice versa ($ nslookup www.google.com)
+
+Getting started with NetworkManager
+
+	* NetworkManager is a service and set of tools designed specifically to make it easier to 
+	  manage the networking configuration on Linux systems and is the default network management service on RHEL 8 and RHEL 9
+	* It makes network management easier.
+	* It provides easy setup of connection to the user.
+	* NetworkManager offers management through different tools such as GUI, nmtui, and nmcli.
+
+	# Check status of NetworkManager
+	$ systemctl status NetworkManager
+	$ ps -ef | grep NetworkManager
+
+Network configuration methods
+
+* nmcli 		= Short for network manager command line interface.
+			  This tool is useful when access to a graphical env is not available and can be also used within scripts to make network conf changes.
+
+* nmtui 		= Short for network manager text user interface. 
+			  This tool can be run within any terminal window and allows changes to be made by making menu selections and entering data.
+
+* nm-connection-editor 	= A full graphical management tool providing access to most of the NetworkManager
+			  configurations opstions. It can only be accessed through the desktop or console.
+
+* GNOME Settings 	= The network screen of the GNOME desktop settings application allows basic network 
+		   	  management task to be performed.
+
+$ nmcli con show
+
+NOTE: Use console to configure static IP and take snapshot if using virtual machine.
+
+* Using nmcli to configure static IP
+
+	$ nmcli device (Get the listing of network interface)
+	$ nmcli connection modify enp0s3 ipv4.addresses <ipaddress/24>
+	$ nmcli connection modify enp0s3 ipv4.geteway <gatewayIP>
+	$ nmcli connection modify enp0s3 ipv4.method manual
+	$ nmcli connection modify enp0s3 ipv4.dns 8.8.8.8
+	$ nmcli connection down enp0s3
+	$ nmcli connection up enp0s3
+	$ ip address show enp0s3
+
+* Adding secondary static IP using nmcli
+
+	$ nmcli device status
+	$ nmcli connection-show --active
+	$ ifconfig
+	$ nmcli connection modify enp0s3 +ipv4.addresses <ipadd/24>	# if has a secondary NIC
+	$ nmcli connection reload <same as $ nmcli connection down/up enp0s3>
+	$ systemctl reboot
+	$ ip address show
+
+Network Files and Commands
+
+* Interface Detection
+* Assigning an IP address
+* Interface configuration files
+	* /etc/nsswitch.conf				= It defines the lookup order for various system databases, such as user information (passwords, groups), hostnames, network information, and more.
+	* /etc/hosts					= set domain name for your machine
+	* /etc/sysconfig/network			= Hostname file in CentOS 6
+	* /etc/hostname					= Hostname file in CentOS 7
+	* /etc/sysconfig/network-scripts/ifcfg-nic	= This is the file where you can specify your IP
+	* /etc/resolv.conf				= Specifies your DNS Server
+
+# This files can be seen on any linux distribution
+
+* Network Commands
+	$ ping			= send ICMP ECHO_REQUEST to network hosts
+	$ ifconfig		= configure a network interface
+	$ ifup or ifdown	= bring up or bring down the interface
+	$ netstat -rnv		= print network conn., routing tables, interface statistics
+	$ netstat -tulpn	= for finding out which ports of the machine are being open by which services
+	$ traceroute		= print the route packets trace to network host
+	$ nslookup [hostname]	= to know what is the IP address of a hostname or websites
+	$ dig [hostname]	= same as nslookup but little different
+	$ tcpdump -i enp0s3	= traces every single transaction leaving and coming into the mac
+	$ ethtool enp0s3	= to know the speed, status, and link speed etc.
