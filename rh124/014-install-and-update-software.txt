@@ -1,0 +1,165 @@
+Install and Update Software Packages
+
+* Software is any application that you can run on your computer.
+* Package is a container that contain the software related programs, files, and executables.
+
+Topics:
+	* Linux package management using yum/dnf and rpm command
+	* System update and patch management (yum update vs upgrade)
+	* Advance package management
+
+System Update and Repos
+
+	* yum (CentOS), apt-get (other Linux)
+	* rpm (RedHat Package Manager)
+	* Difference of yum and rpm?
+
+		* yum command installs a package from the repositories that are defined in your linux system e.g /etc/yum.repos.d
+		* yum downloads the package and install it as well. Yum command also installs any dependencies. So it downloads, install, verify, and also clean up the download.
+		* When you run yum you tell the system to go online (with internet) with the URL and get the package and install it.
+		* rpm is used when you have already the package, you have to manually download the package and install it locally.
+
+	Examples:
+	
+	# Install a package
+	$ yum install <package name>
+
+	# To uninstall/remove the package
+	$ yum remove <package name>
+
+	# To check if the package is already installed in the system
+	$ rpm -qa <package name>
+	$ rpm -qa | grep <package name>
+
+	# To check the total number of packages
+	$ rpm -qa | wc -l
+
+	# To install a package using rpm command
+	$ rpm -ihv /package/path/file.rpm
+
+	# To remove the package
+	$ rpm -e <package+version>
+
+
+System Upgrade/Patch Management
+
+* Two type of upgrades
+
+	* Major verion	= 5, 6, 7
+	* Minor version = 7.3 and 7.4
+
+Minor version = yum update
+
+	Example:
+	$ yum update -y
+
+yum update vs upgrade
+
+upgrade = delete packages/delete old package and update new package
+update  = preserves old packages (This is a good practice in case the new version doesn't work well)
+
+# To see linux version
+$ cat /etc/redhat-release
+
+# view only to see what packages required some updates
+$ yum update
+
+
+Advance Package Management
+
+* Installing packages				= $ yum install <packagename>
+* Upgrading
+* Deleting					= $ yum remove <package name>
+* View package details information
+* Identify source or location information
+* Packages configuration files
+
+# another way to download and install a package
+$ wget <url.rpm> ----- copy the link address
+$ rpm -hiv <filename.rpm>
+$ rpm -qa | grep <package name>
+
+
+# verify information of package
+$ rpm -qi <package name>
+
+
+# delete package using rpm
+$ rpm -e <full packagename>
+
+
+# list of config files of the package
+$ rpm -qc <full packagename>
+
+# find out some information of the command.. every package has a command associated.
+e.g
+$ ksh
+exit
+
+# which package this command belongs to
+$ which <package name>
+$ rpm -qf /usr/bin/package-name
+
+# when is the last time the package is updated
+$ rpm -a -last <package name>
+
+# download only the package in /var/cache/yum  ..cd to 7server and run the command ls -lR 
+$ yum install --downloadonly <package name>
+
+
+Create local Repository From DVD
+
+# Take all the rpm packages from the DVD or CD ROM drive..
+# mount the centos7 diskimage
+	In Oracle VM click:
+	Devices --> Optical Drives --> Choose Disk image --> and click open.. This automatically mount your dvd to your machine
+
+# go to /run/media/username/CentOS 7 x86_64/Packages
+
+# become root and create folder in / for localrepo
+$ cd /
+$ mkdir localrepo
+
+# copy all the contents of the disk
+$ df -h
+$ cd /run/media/dobido/... and hit tab to automatically pick the ISO image because linux do not understand spaces like this /run/media/dobido/CentOS 7 x86_64
+$ ls -ltr
+$ cd Packages/
+$ ls -ltr
+$ ls -ltr | wc -l
+
+# estimate file space usage
+$ du -sh .
+
+# check the available diskspace
+$ df -h
+
+# copy everything (rpm files) in the Packages directory to the /localrepo directory
+$ cp -rv /run/media/dobido/CentOS\ 7\ x86_64/Packages/* /localrepo/
+
+# go to /etc/yum.repos.d/ directory and delete all repo (make backup of that file)
+$ cd /etc/yum.repos.d/
+$ rm -rf /etc/yum.repos.d/*
+
+# create a file name local.repo
+$ vi local.repo
+
+# add this values
+[centos7]
+name=centos7
+baseurl=file:///localrepo/
+enabled=1
+gpgcheck=0
+
+NOTE: For CentOS8/9 = command not found
+      So install a package
+      yum install createrepo*
+
+# Then run this command
+$ createrepo /localrepo/
+
+# clean any cache in the old repository
+$ yum clean all
+
+# verify
+$ yum repolist all
