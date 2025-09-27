@@ -1,0 +1,63 @@
+
+* Anytime you have an issue w/ your Linux RedHat server you will have to through the
+  monitoring commands such as top, free, df, du etc. A system administrator should also review
+  the system logs in /var/log directory and then reach out to Redhat technical support for more help 
+  (if the sysad cannot resolve the issue)
+
+* Redhat has made it easier for system administrator to use a web-based application named 
+  "Cockpit" to manage and analyze server.
+
+* To get support from Redhat, a system administrator can run the utility sosreport or in newer
+  version "sos report" on linux system as root which will collect the logs and configuration file
+  and then transfer them over to Redhat support server. Now with Cockpit application, the report
+  can be generated at the web-based portal.
+
+e.g
+$ sos report
+
+Please enter the case id that you are generating this report for []:
+
+## if you already reached out redhat support you already have a case id. Enter the case ID in the prompt. ##
+
+Your sosreport has been generated and saved in:
+	/var/temp/sosreport-file.....
+## copy the file to your desktop and transfer it to redhat support
+
+* Cockpit web-based interface provides many other functionality aside from monitoring and
+  getting support from Redhat
+
+Cockpit
+
+* Cockpit is a server administration tool sponsored by Red Hat, 
+  focused on providing a modern-looking and user-friendly interface to manage and administer servers
+
+* Cockpit is the easy-to-use, integrated, glanceable, and open web-based interface for your servers
+
+* The application is available in most of the Linux distributions such as, CentOS, Redhat, Ubuntu and Fedora
+
+* It is installed in Redhat 8 by default and it is optional in version 7
+
+* It can monitor system resources, add or remove accounts, monitor system usage, 
+  shut down the system and perform quite a few other tasks all through a very accessible web connection
+
+INSTALL, CONFIGURE, and MANAGE COCKPIT
+
+* Check for network connectivity
+	$ ping www.google.com
+
+* Check if the package has been installed
+	$ rpm -qa | grep cockpit
+
+* Install cockpit package as root (if installing using user you need to the sudo command)
+	$ yum/dnf install cockpit –y	(For RH or CentOS)
+	$ apt-get install cockpit	(For Ubuntu)
+
+* Start and enable the service
+	$ systemctl start|enable cockpit
+
+* Check the status of the service
+	$ systemctl status cockpit
+
+* Access the web-interface
+	https://192.168.1.x:9090
+	## if you cannot access the web interface, disable the firewalld service or make an entry to allow the traffic coming from that port number ##

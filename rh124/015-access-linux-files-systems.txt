@@ -1,0 +1,48 @@
+* Filesystem is a structured way where all files and directories are stored
+* To access those files, we need navigation tools
+* Following are the basic tools or commands to access Linux file system:
+
+	- ls
+	- cd
+	- pwd
+	- df
+	- du
+	- fdisk
+	- Absolute and relative path (absolute path always begin with /)
+	- Tilde ~
+	- . and ..
+
+# change directory
+$ cd <directory>
+
+# go back one directory
+$ cd ..
+
+# list directory contents 
+$ ls		... only shows files and folders
+$ ls -l		... shows in column
+$ ls -lt	... shows the latest file on the top
+$ ls -ltr	... show the latest file on the buttom (reverse of ls -lt)
+
+# print name of current/working directory
+$ pwd
+
+# shows the filesystem size, used space, available space, and where the filesystem is mounted
+$ df -h
+
+# list all the disk information
+$ fdsik -l
+
+# if you attached new a disk to your OS, it allows more option to partition the disk
+$ fdisk /dev/sdb or /dev/sdc	... the naming scene sd+letter depends on how many existing disk is attached
+
+# Absolute path
+$ cd /full/path/ .. if you want to go directly in the target directory
+
+# relative path
+$ cd /home
+$ cd <userdirectory>
+$ cd Desktop	... you go in one by one to your target directory
+
+# Tilde ~
+$ ~	.... it will bring you to your home home directory
