@@ -1,0 +1,272 @@
+What is a Shell?
+	* It's like a container
+	* Interface between users and Kernel/OS
+	* CLI is a Shell
+
+Find your Shell
+	$ echo $0
+
+* Available Shells 
+	$ cat /etc/shells
+
+* Your Shell? 
+	$ cat /etc/passwd
+
+-----------------------------------------------------------------------------
+
+Types of Shell
+
+	* sh
+	* bash
+	* ksh
+	* csh
+
+Starting a Shell
+
+	* Type shell name e.g. csh
+	* Type exit to exit out of shell
+
+-----------------------------------------------------------------------------
+
+• What is a Shell Script?
+    Ans: A shell script is an executable file containing multiple shell commands that are executed sequentially. The file can contain:
+
+	* Shell (#!/bin/bash)
+	* Comments (# comments)
+	* Commands (echo, cp, grep etc.)
+	* Statements (if, while, for etc.)
+
+• Shell script should have executable permissions (e.g. -rwx r-x r-x)
+• Shell script has to be called from absolute path (e.g /home/userdir/script.bash)
+• If called from current location then ./script.bash
+
+-----------------------------------------------------------------------------
+
+Shell Script - Basic Scripts
+
+• Output to screen using “echo”
+
+• Creating tasks
+
+	* Telling your id, current location, your files/directories, system info 
+	* Creating files or directories
+	* Output to a file “>"
+
+• Filters/Text processors through scripts (cut, awk, grep, sort, uniq, wc)
+
+
+Defining Tasks
+
+	$ touch file
+	$ vi file.txt
+
+		#!/bin/bash
+
+		"hello world"
+		echo
+		whoami
+		echo
+		pwd
+		echo
+		hostname
+		echo
+		ls -ltr
+		echo
+		.
+		.
+		.
+		:wq!
+
+	# give the file executable permission to run the script
+	$ chmod a+x file.txt
+	$ ./file.txt
+	or
+	/absolute/path/file
+
+Defining variables
+
+	$ touch variable-commands
+	$ vi variable-commands
+		
+		#!/bin/bash
+		# Description
+
+		# Variables
+		a=Don
+		b=Obido
+		c='Linux class'
+
+		echo "My firstname is $a"
+		echo "My surname is $b"
+		echo "My Class is $c"
+
+	$ chmod a+x variable-commands
+	$ ./variable-commands
+
+-----------------------------------------------------------------------------
+
+Input/Output
+
+* Creating a script to take input from the user
+
+read
+echo
+
+	$ vi input-script
+		
+		#!/bin/bash
+		# Desciption
+
+		a=`hostname`	.... if you run an echo command you must have to put ticks (`) because hostname is an actual command in the linux system.
+
+		echo Hello, my server name is $a
+		echo
+		echo What is your name?
+		echo
+		read b
+
+		echo Hello $b
+		.
+		.
+		.
+		:wq!
+
+	# give the file executable permission to run the script
+	$ chmod a+x input-script
+	$ ./input-script
+
+-----------------------------------------------------------------------------
+
+If-then statement
+
+	If this happens	= do this
+	Otherwise	= do that
+
+Comparisons:
+
+	-eq	equal to for numbers
+	==	equal to for letters
+	-ne 	not equal to
+	!==	not equal to for letters
+	-lt	less than
+	-le	less than or equal to
+	-gt	greater than or equal to
+	-ge	greater than
+
+File Operations:
+
+	-s	file exists and is not empty 
+	-f	file exists and is not a directory
+	-d	directory exists
+	-X	file is executable
+	-W	file is writable
+	-r	file is readable
+
+Example scripts:
+
+* Check the variable
+
+	$ vi ifthen-script
+		
+		#!/bin/bash
+		
+		count=1
+		if [ $count -eq 100 ]
+		then
+			echo Count is 100
+		else
+			echo Count is not 100
+		fi
+		.
+		.
+		.
+		:w!
+
+	$ chmod a+x ifthen-script
+	$ ./ifthen-script
+
+* Check if a file veronica exist
+
+	$ vi ifthen-new
+	
+		#!/bin/bash
+		
+		clear
+		if [ -e /home/userdirectory/error.txt ]
+		
+			then
+			echo "File exist"
+			else
+			echo "File does not exist"
+		fi
+		.
+		.
+		.
+		:wq!
+
+	$ chmod a+x ifthen-new
+	$ ./veronica
+
+-----------------------------------------------------------------------------
+
+* For loops
+
+	It keeps running until specified number of variable
+	e.g: variable = 10 then run the script 10 times
+	OR
+		variable = green, blue, red (then run the script 3 times for each color.
+
+Simple for loop output:
+
+	$ vi abc
+
+		#!/bin/bash
+		
+		for i in 1 2 3 4 5
+		do
+		echo "Welcome $i times"
+		done
+		
+		.
+		.
+		.
+		:wq!
+
+	$ chmod a+x abc
+	$ ./abc
+
+
+	$ vi xyz
+
+		#!/bin/bash
+
+		for i in eat run jump play
+		do
+		echo See Imran $i
+		done
+
+		.
+		.
+		.
+		:wq!
+
+	$ chmod a+x xyz
+	$ ./xyz
+
+-----------------------------------------------------------------------------
+
+grep/egrep
+
+* What is grep
+	- The grep command which stands for "global regular expression print," 
+	  processes text line by line and prints any lines which match a specified pattern.
+
+$ grep --version OR grep --help			= Check version or help.
+$ grep [keyword] [filename]			= Search for a keyword from a file.
+$ grep -c [keyword] [filename]			= Search for a keyword and count.
+$ grep -i [keyword] [filename]			= Search for a keyword and ignore case-sensitive.
+$ grep -n [keyword] [filename]			= Display the match lines and their line numbers.
+$ grep -v [keyword] [filename]			= Display everything but keyword.
+$ grep [keyword] [filename] | awk '{print $1}'	= Search for a keyword and then only give the 1st field.
+$ ls -l | grep Desktop				= Search for a keyword and then only give the 1st field.
+$ egrep -i "keyword1|keyword2" [filename]	= Search for 2 keywords.
