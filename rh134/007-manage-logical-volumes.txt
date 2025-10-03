@@ -1,0 +1,136 @@
+Logical Volume Management (LVM)
+
+* LVM allows disks to be combined together
+
+3 HDD --> group into 1 --> partition into 4
+
+Advantage:
+
+If you add new disk, you can include that on the group and associate it to the partition.
+
+------------------------------------------------------------------------------------
+
+Add Disk and Create LVM Partition
+
+* Add Hard disk
+- In Oracle VM you add first a Virtual Hard Disk in the storage tab -- Controller:SATA -- Add Hard Disk -- Create new disk  -- VDI --Dynamically allocated and so on..
+
+# become root
+$ su -
+
+# verify those disk you added
+$ fdisk -l
+
+* Partition
+$ fdsik /dev/sdc
+Command (m forhelp):
+			Process:
+			n		... new partition
+			p		... primary partition
+			1		... first partition number
+			1st sector	... default
+			last sector	... default
+			p		... partition is created but partition is not written to the table yet because it is not already write or saved 
+			t		... choose type of partition
+			L		... to see what is the Hex code associated with LVM
+			8e		... type 8e to choose the Linux LVM
+			p		... to confirm
+			w		... to write or to save
+
+# Create a physical Volume
+$ pvcreate /dev/sdc1
+$ pvdisplay
+
+# Create a volume group
+$ vgcreate oracle_vg /dev/sdc1
+$ vgdisplay oracle_vg
+
+# Create Logical Volumes
+$ lvcreate -n oracle_lv --size 1000M oracle_vg
+$ lvdisplay
+
+# Format the disk
+$ mkfs.xfs /dev/oracle_vg/oracle_lv
+
+# Mount the logical volume
+$ mkdir /oracle
+$ mount /dev/oracle_vg-oracle_lv /oracle
+
+# Verify
+$ df -h
+$ lvs
+
+# mount this partition at boot time
+/dev/oracle_vg/oracle_lv	/oracle	xfs	defaults	0	0
+
+------------------------------------------------------------------------------------
+
+CentOS / RHEL: How to delete LVM volume
+https://www.thegeekdiary.com/centos-rhel-how-to-delete-lvm-volume/
+
+Steps:
+
+1. Delete the entry of the mount point from the /etc/fstab :
+2. Unmount the mount point :
+	$ umount /data01
+
+3. Disable lvm :
+	$ lvchange -an /dev/mapper/datavg-testlv
+
+4. Delete lvm volume :
+	$ lvremove /dev/datavg/testlv
+
+5. Disable volume group :
+	$ vgchange -an datavg
+
+6. Delete volume group :
+	$ vgremove datavg
+
+7. Delete physical Volumes being used for the volume group “datavg” :
+	$ pvremove /dev/sdb  /dev/sdc
+
+------------------------------------------------------------------------------------
+
+Add and Extend Disk Using LVM
+
+Purpose: When the disk is full
+Few Options:
+
+* Delete older files up disk space
+* Add new physical disk mount to /foldername
+* If you have virtual environment.. create a new virtual disk and mount to /foldername
+* Or extend /foldername through LVM
+
+* Add Hard disk
+- In Oracle VM you add first a Virtual Hard Disk in the storage tab -- Controller:SATA -- Add Hard Disk -- Create new disk  -- VDI --Dynamically allocated and so on..
+  (if you are using a type 1 hyperviser there is a option to extend your disk)
+
+# become root
+# verify the added disk
+$ fdsik -l
+
+# partition disk
+$ fdisk /dev/sdd
+Command (m for help): n, p, 1, default, default, p, t, L, 8e, w
+
+# reboot the system
+$ init 6
+
+# become root verify the new partition
+$ su -
+$ fdsik -l
+
+* extend the file system
+
+# shows which group is associated on which disk or $ pvs
+$ pvdisplay
+$ vgdisplay oracle_vg
+
+# create physical volume
+$ pvcreate /dev/sdd1
+
+# extend the volume group by associating the /dev/sdd1 or the newly physical volume
+$ vgextend oracle_vg /dev/sdd1
+
+$ lvextend -L+1020M /dev/mapper/oracle_vg-oracle_lv
+$ xfs_growfs /dev/mapper/oracle_vg-oracle_lv

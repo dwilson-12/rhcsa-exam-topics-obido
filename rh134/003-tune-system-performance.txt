@@ -1,0 +1,96 @@
+* Linux system comes fined tunned by default when you install, 
+ however there are a few tweaks that can be done based on system performance and application requirements.
+
+Those are:
+1. Optimize system performance by selecting a TUNING PROFILE managed by the tuned daemon.
+2. Prioritize or de-prioritize specific processes with the NICE and RENICE commands.
+
+What is tuned?
+
+* Tuned pronounced as tune-d
+* Tune is for system tuning and d is for daemon
+* It is systemd service that is used to tune Linux system performance
+* It is installed in CentOS/Redhat version 7 and 8 by default
+* tuned package name is tuned
+* The tuned service comes with pre-defined profiles and settings
+  Based on selected profile the tuned service automictically adjust system to get the best performance.
+  E.g. tuned will adjust networking if you are downloading a large file or it  will adjust IO settings if it detects high storage read/write
+* The tuned daemon applies system settings when the service starts or upon selection of a new tuning profile.
+
+
+Tuned profile			Purpose
+
+Balanced			Deal for systems that require a compromise between power saving and performance
+Desktop				Derived from the balanced profile. Provides faster response of interactive applications
+Throughput-performance		Tunes the system for maximum throughput
+Latency-performance		Ideal for server systems that require low latency at the expense of power consumption
+Network-latency			Derived from the latency-performance profile. It enables additional network tuning parameters to provide low network latency
+Network-throughput		Derived from the throughput-performance profile. Additional network tuning parameters are applied for maximum network throughput
+Powersave			Tunes the system for maximum power saving
+Oracle				Optimized for Oracle database loads based on the throughput-performance profile
+virtual-guest			Tunes the system for maximum performance if it runs on a virtual machine
+virtual-host			Tunes the system for maximum performance if it acts as a host for virtual machines
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* Check if tuned package has been installed
+	$ rpm –qa | grep tuned
+
+* Install tuned package if NOT installed already
+	$ yum install tuned
+
+* Check tuned service status
+	$ systemctl status|enable|start tuned
+	$ systemctl enable tuned (To enable at boot time)
+
+* Command to change setting for tuned daemon
+	$ tuned-adm
+
+* To check which profile is active
+	$ tuned-adm active 
+
+* To list available profiles
+	$ tuned-adm list
+
+* To change to desired profile
+	$ tuned-adm profile profile-name
+
+* Check for tuned recommendation
+	$ tuned-adm recommend
+
+* Turn off tuned setting daemon
+	$ tuned-adm off
+
+* Change profile through web console
+	$ Login to https://192.168.1.x:9090 (cockpit)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+nice/renice
+
+* Another way of keeping your system fine-tuned is by prioritizing processes through nice and renice command
+* If a server has 1 CPU then it can execute 1 computation/process at a time as they come in (first come first served) while other processes must wait
+* With nice and renice commands we can make the system to give preference to certain processes than others
+* This priority can be set at 40 different levels
+* The nice level values range from -20 (highest priority) to 19 (lowest priority) and by default, 
+  processes inherit their nice level from their parent, which is usually 0.
+
+* Process priority can be viewed through ps command as well with the right options
+	$ ps axo pid,comm,nice,cls --sort=-nice
+
+
+* To set the process priority 
+	$ nice –n [#] [process-name]
+	e.g. 
+	$ nice –n -15 top
+
+
+* To change the process priority 
+	$ renice –n # process-name
+	e.g. $ renice –n 12 PID.
+
+* Nice value is a user-space and priority PR is the process's actual priority that use by Linux kernel.
+  In Linux system priorities are 0 to 139 in which 0 to 99 for real time and 100 to 139 for users.
+
+* Process priority can be viewed through ps command as well with the right options
+	$ ps axo pid,comm,nice,cls --sort=-nice 

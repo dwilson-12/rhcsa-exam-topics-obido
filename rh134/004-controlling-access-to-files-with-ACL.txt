@@ -1,0 +1,44 @@
+* What is ACL?
+	ACL provides an additional, more flexible permission mechanism for file systems.
+	It is designed to assist with UNIX file permissions. ACL allows you to give permissions
+	for any user or group to any disc resource.
+
+* Use of ACL:
+	Think of a scenario in which a particular user is not a member of group created by you
+	but still you want to give some read or write access, how can you do it without making user
+	a member of group, here comes in picture ACL, ACL helps us to this trick.
+
+* Basically, ACLs are used to make flexible permission mechanism in linux.
+
+* From linux man pages, ACLs are used to define more fine-grained discretionary access rights
+  for files and directories.
+
+* Commands to assign and remove ACL permisions are:
+	setfacl and getfacl
+
+	# get acl information of the file
+	$ getfacl [file]
+
+* getfacl gives information about the existing information of a file
+
+List of commands for setting up ACL:
+
+	1) To add premission for user
+		$ setfacl -m u:username:rwx /path/of/the/file
+
+	2) To add permission for a group
+		$ setfacl -m g:groupname:rw /path/of/the/file
+
+	3) To allow all files or directories to inherit ACL entries from the directory it is within
+		$ setfacl -Rm "entry" /path/of/the/file
+
+	4) To remove entries from the ACLs of file
+		$ setfacl -x u:user /path/of/the/file (for a specific user)
+
+	5) To remove all entries
+		$ setfacl -b /path/of/the/file (for all user)
+
+NOTE:
+
+* As you assign the ACL permission to a file/directories it adds + sign at the end of the permission
+* Setting w permission w/ ACL does not allow to remove a file

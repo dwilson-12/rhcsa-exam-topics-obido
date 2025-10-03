@@ -1,0 +1,73 @@
+Storage
+
+4 diff. type of storage in IT
+
+1. Local Storage
+	* RAM, HDD, SSD, etc.
+
+2. DAS (Direct Attached Storage)
+	* CD/DVD, USB flash drive, external disk directly attached with
+	  USB or other cables
+
+3. SAN (Storage Area Network)
+	* Storage attached through iSCSI or fiber cable
+
+4. NAS (Network Attached Storage)
+	* Storage attached over network (TCP/IP)
+	* E.g Samba, NFS etc.
+
+
+Disk Partition
+
+* Commands for disk partition:
+	* df
+	* fdisk
+
+* Report file system disk space usage in human readable format
+	$ df -h
+* Manipulate disk partition table
+	$ fdisk
+* List the partition tables
+	$ fdisk -l
+
+
+Adding Disk and Creating Partition
+
+* Purpose? = Out of Space, Additional Apps etc.
+
+* Commands
+	$ df	-h
+	$ fdisk -l
+
+Example:
+
+- In Oracle VM you add first a Virtual Hard Disk in the storage tab -- Controller:SATA -- Add Hard Disk -- Create new disk  -- VDI --Dynamically allocated and so on..
+
+# Become root
+# Create a new partition from new disk
+$ fsidk /dev/sdb
+Command (m for help):	n = new partition
+			p = primary
+			partition number: default
+			first sector: default
+			last sector: default
+			w = write table to disk
+	
+# Next is to assign file system type
+$ mkfs.xfs /dev/sdb1
+
+# Mount it to a certain mount point
+$ mkdir /data
+$ mount /dev/sdb1 /data
+
+# Automatically mount it when system reboots
+$ vi /etc/fstab
+
+# add this line
+/dev/sdb1	/data	xfs	defaults	0	0
+
+# How to unmount
+$ unmount /data
+
+# To mount again.. . check the /etc/fstab file what are the mounts
+$ mount -a
