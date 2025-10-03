@@ -16,14 +16,14 @@ Add Disk and Create LVM Partition
 - In Oracle VM you add first a Virtual Hard Disk in the storage tab -- Controller:SATA -- Add Hard Disk -- Create new disk  -- VDI --Dynamically allocated and so on..
 
 # become root
-$ su -
+	$ su -
 
 # verify those disk you added
-$ fdisk -l
+	$ fdisk -l
 
 * Partition
-$ fdsik /dev/sdc
-Command (m forhelp):
+	$ fdsik /dev/sdc
+	Command (m forhelp):
 			Process:
 			n		... new partition
 			p		... primary partition
@@ -38,27 +38,27 @@ Command (m forhelp):
 			w		... to write or to save
 
 # Create a physical Volume
-$ pvcreate /dev/sdc1
-$ pvdisplay
+	$ pvcreate /dev/sdc1
+	$ pvdisplay
 
 # Create a volume group
-$ vgcreate oracle_vg /dev/sdc1
-$ vgdisplay oracle_vg
+	$ vgcreate oracle_vg /dev/sdc1
+	$ vgdisplay oracle_vg
 
 # Create Logical Volumes
-$ lvcreate -n oracle_lv --size 1000M oracle_vg
-$ lvdisplay
+	$ lvcreate -n oracle_lv --size 1000M oracle_vg
+	$ lvdisplay
 
 # Format the disk
-$ mkfs.xfs /dev/oracle_vg/oracle_lv
+	$ mkfs.xfs /dev/oracle_vg/oracle_lv
 
 # Mount the logical volume
-$ mkdir /oracle
-$ mount /dev/oracle_vg-oracle_lv /oracle
+	$ mkdir /oracle
+	$ mount /dev/oracle_vg-oracle_lv /oracle
 
 # Verify
-$ df -h
-$ lvs
+	$ df -h
+	$ lvs
 
 # mount this partition at boot time
 /dev/oracle_vg/oracle_lv	/oracle	xfs	defaults	0	0

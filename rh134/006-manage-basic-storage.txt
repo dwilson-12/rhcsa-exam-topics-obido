@@ -54,20 +54,20 @@ Command (m for help):	n = new partition
 			w = write table to disk
 	
 # Next is to assign file system type
-$ mkfs.xfs /dev/sdb1
+	$ mkfs.xfs /dev/sdb1
 
 # Mount it to a certain mount point
-$ mkdir /data
-$ mount /dev/sdb1 /data
+	$ mkdir /data
+	$ mount /dev/sdb1 /data
 
 # Automatically mount it when system reboots
-$ vi /etc/fstab
+	$ vi /etc/fstab
 
 # add this line
 /dev/sdb1	/data	xfs	defaults	0	0
 
 # How to unmount
-$ unmount /data
+	$ unmount /data
 
 # To mount again.. . check the /etc/fstab file what are the mounts
-$ mount -a
+	$ mount -a
