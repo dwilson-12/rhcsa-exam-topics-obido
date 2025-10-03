@@ -1,0 +1,44 @@
+* Red Hat 8 introduces the next generation volume management solution called Stratis
+* It uses thin provisioning by default
+* It combines the process of creating logical volume management (LVM) and creation of filesystems into one management.
+* In LVM if a filesystem system gets full you will have to extend it manually whereas stratis extends the filesystem 
+  automatically if it has available space in its pool.
+
+# become root
+	$ su -
+
+# Install Statris package
+	$ yum/dnf install stratis-cli stratisd -y
+
+# Enable and start Statris service
+	$ systemctl enable start stratisd
+
+# stop the machine first
+# create snapshot if you are in a virtual environment
+# Add 2 x 5G new disks from virtualization software and verify at the OS level 
+	Oracle virtualbox storage setting
+	$ lsblk
+
+# Create a new stratis pool and verify
+	$ stratis pool create pool1 /dev/sdb 
+	$ stratis pool list
+
+# Extend the pool
+	$ stratis pool add-data pool1 /dev/sdc 
+	$ stratis pool list
+
+# Create a new filesystem using stratis
+	$ stratis filesystem create pooll fsl
+	$ stratis filesystem list		(Filesystem will start with 546 MB)
+
+# Create a directory for mount point and mount filesystem mkdir /bigdata
+	$ mount /dev/stratis/pool1/fs1 /bigdata
+	$ 1sblk
+	$ stratis filesystem list
+
+# Create a snapshot of your filesystem
+	$ stratis filesystem snapshot pool1 fs1 [snapshot name]
+	$ stratis filesystem list	(see the UID here if you add the filesystem in the /etc/fstab file)
+
+# Add the entry to /etc/fstab to mount at boot
+UUID="asf-0887afgdja-"	/bigdata	xfs	defaults,x-systemd.requires=stratisd.service	0	0
