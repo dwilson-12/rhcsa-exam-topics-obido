@@ -107,30 +107,30 @@ Few Options:
 
 # become root
 # verify the added disk
-$ fdsik -l
+	$ fdsik -l
 
 # partition disk
-$ fdisk /dev/sdd
-Command (m for help): n, p, 1, default, default, p, t, L, 8e, w
+	$ fdisk /dev/sdd
+	Command (m for help): n, p, 1, default, default, p, t, L, 8e, w
 
 # reboot the system
-$ init 6
+	$ init 6
 
 # become root verify the new partition
-$ su -
-$ fdsik -l
+	$ su -
+	$ fdsik -l
 
 * extend the file system
 
 # shows which group is associated on which disk or $ pvs
-$ pvdisplay
-$ vgdisplay oracle_vg
+	$ pvdisplay
+	$ vgdisplay oracle_vg
 
 # create physical volume
-$ pvcreate /dev/sdd1
+	$ pvcreate /dev/sdd1
 
 # extend the volume group by associating the /dev/sdd1 or the newly physical volume
-$ vgextend oracle_vg /dev/sdd1
+	$ vgextend oracle_vg /dev/sdd1
 
-$ lvextend -L+1020M /dev/mapper/oracle_vg-oracle_lv
-$ xfs_growfs /dev/mapper/oracle_vg-oracle_lv
+	$ lvextend -L+1020M /dev/mapper/oracle_vg-oracle_lv
+	$ xfs_growfs /dev/mapper/oracle_vg-oracle_lv
