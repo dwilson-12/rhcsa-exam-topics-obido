@@ -1,0 +1,102 @@
+Linux Boot Process (Newer Version)
+
+* The boot sequence changes in CentOS/Redhat 7 and above
+* systemd is the new service manager in CentOS/RHEL 7 that manages the boot sequence
+* It is backward compatible with SysV init scripts used by previous versions of RedHat Linux including RHEL 6
+* Every system administrator needs to understand the boot process of an OS in order to troubleshoot effectively
+
+Steps:
+
+1. BIOS		= Basic Input/Output System (firmware interface)
+2. POST		= Power-On Serf-Test started
+3. MBR		= Master Boot Record -- information saved in the first sector of a hard disk that indicates where the GRUB2 is located so it can be loaded in computer RAM
+4. GRUB2	= Grand Unified Boot Loader v2 loads Linux kernel /boot/grub2/grub.cfg
+5. Kernel	= Core of Operating System loads. Required drivers from initrd.img Starts the OS process (systemd)
+6. Systemd	= System Daemon (PID #1) It then starts all the required process
+		  Reads /etc/systemd/system/default.target to bring the system to the run-level. Total of 7 run-levels (0 thru 6)
+
+-------------------------------------------------------------------------------------------------------------------------
+
+How to Reboot/Shutdown
+
+* Το power off or reboot a system from the command line, you can use the systemctl command.
+* systemctl poweroff -- stops all running services, unmounts all file systems, and then powers down the system.
+* systemctl reboot -- stops all running services, unmounts all file systems, and then reboots the system.
+* You can also use the shorter version of these commands, shutdown, poweroff and reboot, which are symbolic links to their systemctl equivalents.
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Selecting a Systemd Target
+
+* Systemd is the first Linux process which decides at which run-level the operating system needs to be in
+* These run-levels are now referred to as targets
+* The following table lists the most important targets
+
+Target			Purpose			
+graphical.target	System supports multiple users, graphical and text based logins
+multi-user.target	System supports multiple user, text-based logins only
+rescue.target		sulogin prompt, bashic system initialization completed
+emergency.target	sulogin prompt, initramfs pivot complete and system root mounted on / read only
+
+
+# To check the current target or run-level.
+
+	$ systemctl get-default
+	$ who -r
+
+# A target can be a part of another target. e.g., the graphical.target includes multi- user. target, which in turn depends on basic.target and others.
+
+# You can view these dependencies with the following command.
+
+	$ systemctl list-dependencies graphical.target | grep target
+
+# You can display the new runlevels/targets by issuing the following command:
+
+	$ ls -l /lib/systemd/system/runlevel*
+
+# Setting default target
+
+	$ systemctl set-default graphical.target
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Recover Root Password
+
+Steps:
+
+1. Restart your computer
+2. press e
+3. Edit grub
+4. Change password
+5. reboot
+
+* find *ro* and replaced with:
+rw init=/sysroot/bin/sh
+press ctrl x
+:/# chroot /sysroot
+:/# passwd root
+:/# touch /.autorelabel
+:/# exit
+:/# reboot
+
+FOR CentOS/Red Hat 9
+
+You just need to go to end of the line and type rd.break
+
+*******rhgb quiet rd.break
+ctrl+x
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Repair Filesystem Corruption
+
+* Filesystem corruption can occur when you either make mistakes in /etc configuration files or filesystem become corrupted at the disk level
+* In either of the above cases the systemd will not be able to boot the system in the defined target and bring the system in emergency mode
+* The following table lists some common errors and their results
+
+Problem							Result
+Corrupt file system					... systemd attempts to repair the file system. If the problem is too severe for an automatic fix, the system drops the user to an emergency shell
+Nonexistent device or UUID referenced in /etc/fstab	... systemd waits for a set amount of time, waiting for the device to become available. If the device does not become available, the system drops the user to an emergency shell after the timeout
+Nonexistent mount point in /etc/fstab			... The system drops the user to an emergency shell
+ncorrect mount option specified in /etc/fstab		... The system drops the user to an emergency shell
+
