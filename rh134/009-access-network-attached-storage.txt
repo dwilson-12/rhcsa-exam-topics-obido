@@ -133,7 +133,7 @@ Samba Installation and Configuration:
 	• Mount Samba share on Linux client
 	• Additional instructions on creating secure Samba share
 
-NOTE: This steps is in https://github.com/dwilson-12/rhcsa-exam-topics-obido/blob/main/rh134/Handouts-pdf-files/Samba%2Binstallation%2Band%2BConfiguration.pdf
+NOTE: This steps is in the https://github.com/dwilson-12/rhcsa-exam-topics-obido/blob/main/rh134/Handouts-pdf-files/Samba%2Binstallation%2Band%2BConfiguration.pdf
 
 I encounter some error package when I run "yum install samba samba-common samba-client" (repo is out sync)
 
