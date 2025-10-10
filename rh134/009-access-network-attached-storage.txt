@@ -1,0 +1,142 @@
+NFS & Samba
+
+NFS
+
+* NFS stands for Network File System, a file system developed by Sun Microsystems, Inc.
+* It is a client/server system that allows users to access files across a network 
+  and treat them as if they resided in a local file directory.
+* For example, if you were using a computer linked to a second computer via NFS, 
+  you could access files on the second computer as if they resided in a directory on the first computer. 
+  This is accomplished through the processes of exporting (the process by which an NFS server provides remote 
+  clients with access to its files) and mounting (the process by which client map NFS shared filesystem).
+* NFS conf. files = /etc/sysconfig/nfs
+		    /etc/exports
+
+Steps for NFS Server Configuration
+
+	# Install NFS packages
+		$ yum install nfs-utils libnfsidmap (most likely they are installed) 
+
+	# Once the packages are installed, enable and start NFS services
+		$ systemctl enable rpcbind
+		$ systemctl enable nfs-server
+		$ systemctl start rpcbind
+		$ systemctl start nfs-server
+		$ systemctl start rpc-statd
+		$ systemctl start nfs-idmapd
+
+	# Stop the firewall
+		$ systemctl stop firewalld
+
+	# Create NFS share directory and assign permissions
+		$ mkdir /mynfs
+		$ chmod a+rwx /mynfs
+
+	# Modify /etc/exports file to add new shared filesystem
+		/mynfs	192.168.12.7(rw,sync,no_root_squash)	= for only 1 host
+		/mynfs	*(rw,sync,no_root_squash)		= for everyone
+
+	# Export the NFS filesystem
+		$ exportfs -rv
+
+			/mynfs = NFS share
+
+			192.168.12.7 = IP address of client machine
+
+			rw = Read/write
+
+			sync =  all changes to the according filesystem are immediately flushed to disk;
+        			the respective write operations are being waited for
+
+			no_root_squash = root on the client machine will have the same level of access to the files
+					 on the system as root on the server.
+
+* Steps for NFS Client Configuration
+
+	# Install NFS packages
+		$ yum install nfs-utils rpcbind
+
+	# Once the packages are installed enable and start rpcbind service
+		$ systemctl rpcbind start
+
+	# Make sure firewalld or iptables stopped (if running)
+		$ ps -ef | egrep "firewall|iptable"
+
+	# Show mount from the NFS server
+		$ showmount -e 192.168.1.x (NFS Server IP)
+
+	# Create a mount point
+		$ mkdir /mnt/kramer
+
+	# Mount the NFS filesystem
+		$ mount 192.168.1.5:/mynfs /mnt/kramer
+
+	# Verify mounted filesystem
+		$ df -h
+	
+	# To unmount
+		$ umount /mnt/kramer
+
+IF NFS SERVICE IS RUNNUNG BEHIND FIREWALL
+
+Uncomment the MOUNTD_PORT, STATD_PORT, LOCKD_TCPPORT, AND LOCKD_UDPPORT in /etc/sysconfig/nfs
+
+Allow TCP and UDP port 2049 for NFS.
+Allow TCP and UDP port 111 (rpcbind/sunrpc).
+Allow the TCP and UDP port specified with MOUNTD_PORT="port"
+Allow the TCP and UDP port specified with STATD_PORT="port"
+Allow the TCP port specified with LOCKD_TCPPORT="port"
+Allow the UDP port specified with LOCKD_UDPPORT="port"
+
+$ systemctl restart nfs
+
+* To mount the filesystem in boot time add the following below at the end of /etc/fstab
+-
+-
+-
+{IP address}:{path of the shared dir}	{location to mount}	nfs	defaults	0	0	<--- this only a guide
+192.168.1.11:/mynfs	/mnt/sharedir	nfs	defaults	0	0				<--- the actual
+
+
+Samba
+
+Samba is a Linux tool or utility that allows sharing for Linux resources
+      such as files and printers to with other operating systems.
+
+* It works exactly like NFS but the difference is NFS shares within Linux or Unix like system 
+  whereas Samba shares with other OS (e.g. Windows, MAC etc.).
+
+* For example, computer “A” shares its filesystem with computer “B” using Samba then computer "B" 
+  will see that shared filesystem as if it is mounted as the local filesystem.
+
+Samba (smb vs. CIFS)
+
+* Samba shares its filesystem through a protocol called SMB (Server Message Block) which was invented by IBM.
+* Another protocol used to share Samba is through CIFS (Common Internet File System) invented by Microsoft and NMB (NetBios Named Server).
+* CIFS became the extension of SMB and now Microsoft has introduced newer version of SMB v2 and v3 that are mostly used in the industry.
+
+In simple term, most people, when they use either SMB or CIFS, are talking about the same exact thing.
+
+Samba Installation and Configuration: 
+
+	• Take snapshot of your VM
+	• Install samba packages
+	• Enable samba to be allowed through firewall (Only if you have firewall running)
+	• Disable firewall
+	• Create Samba share directory and assign permissions
+	• Also change the SELinux security context for the samba shared directory
+	• Or disable SELinux
+	• Modify /etc/samba/smb.conf file to add new shared filesystem
+	• Verify the setting
+	• Once the packages are installed, enable and start Samba services (smb and nmb)
+	• Mount Samba share on Windows client
+	• Mount Samba share on Linux client
+	• Additional instructions on creating secure Samba share
+
+NOTE: This steps is in the path of github.com/dwilson-12/rhcsa-exam-topics-obido/rh134/
+
+I encounter some error package when I run "yum install samba samba-common samba-client" (repo is out sync)
+
+Solution:
+# yum clean all
+# yum distro-sync

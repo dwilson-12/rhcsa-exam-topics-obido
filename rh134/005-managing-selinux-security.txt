@@ -1,0 +1,88 @@
+SELinux (Security Enhanced Linux)
+
+* What is SELinux?
+	* Security-Enhanced Linux is a Linux kernel security module that provides a mechanism for supporting
+	  access control security policies, including  mandatory access controls.
+
+	* It is a project of the United States National Security Agency (NSA) and the SELinux community
+
+Example:
+	If the Apache HTTP Server is compromised, an attacker cannot use that process to read files in user home directories,
+	unless a specific SELinux policy rule was added or configured to allow such access.
+
+SELinux options?
+
+	Enforcing	..Enabled (enabled by default in Redhat, CentOS and Fedora)
+	Permissive	..Disabled but logs the activity
+	Disable		..Disabled and not activity logs
+
+# To check SELinux status
+	$ sestatus OR getenforce
+
+# SELinux setting
+	$ cat /etc/selinux
+	setenforce 0		Permissive/Disable
+	setenforce 1		Enable
+
+# Modify SELinux config for permanent setting
+	/etc/selinux/config
+	SELINUX-enforcing
+	SELINUX=disabled
+	$ reboot
+
+# Before modifying selinux config file
+	* Create a snapshot of your VM
+
+# Before rebooting create a file
+	/.autorelabel
+
+Two main concepts of SELinux (It labels every file and directories in your filesystem. label has 4 different type of information: User, role, type, level)
+	* Labeling
+	* Type enforcement
+
+# To list the label of a file
+	$ ls -lZ /usr/sbin/httpd
+
+# To list the label of a directory
+	$ ls -dZ /etc/httpd
+
+# As the webserver runs its process is labeled in memory as httpd_t
+	$ ps axZ | grep httpd
+
+# The SELinux assisgn the label at the socket level
+	$ netstat -tnlpZ | grep http
+
+Command to manage SELinux settings:
+
+	$ semanage (to label)
+		* login
+		* user
+		* port
+		* interface
+		* module
+		* nude
+		* file context
+		* boolean (mostly used)
+		* permissive state
+		* dontaudit
+
+* Boolean
+	# ON/OFF Switch
+	# There are pre-defined out of box Booleans that come with SELinux
+		- e.g. do we allow ftp server to access home directories
+		- can httpd talk to ldap
+
+	# To get a list of all booleans
+		$ getsebool -a
+		OR
+		$ semanage boolean -1
+
+	# To enable or turn on a booleans
+		$ setsebool -P boolean_name on
+
+	# Check error messages related to selinux
+		$ journalctl
+
+	# To change the type in a label
+		$ chcon -t httpd_sys_content_t FILENAME
+		$ semanage -t httpd_sys_content_t FILENAME

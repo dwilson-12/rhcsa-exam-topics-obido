@@ -100,3 +100,7 @@ Nonexistent device or UUID referenced in /etc/fstab	... systemd waits for a set 
 Nonexistent mount point in /etc/fstab			... The system drops the user to an emergency shell
 ncorrect mount option specified in /etc/fstab		... The system drops the user to an emergency shell
 
+
+* In any case administrators can use the emergency target to diagnose and fix the issue, because no file systems are mounted before the emergency shell is displayed
+
+* When using the emergency shell to fix filesystem issues, do not forget to run systemctl daemon- reload after editing /etc/fstab. Without this reload, systemd may continue using the old version.

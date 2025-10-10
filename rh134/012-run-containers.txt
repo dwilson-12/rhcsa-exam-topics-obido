@@ -1,0 +1,102 @@
+
+* Container technology which allowed developers or programmer to test and build applications on any computer just by putting it in a container
+  (bundled in with the software code, libraries and configuration files) and then run on another computer regardless of its architecture
+* You can move the application anywhere without moving its OS just like moving the actual physical container anywhere that would fit on any dockyard, truck, ship or warehouse
+* An OS can run single or multiple containers at the same time
+
+What are the Container Software?
+
+1. Docker	... Developed by: Solomon hykes and Released on March 20th 2013
+		... Docker is the software used to create and manage containers
+		... Just like any other package, docker can be insalled on your Linux system and its service or daemon can be controlled through native
+		    Linux service management tool.
+
+2. Podman	... Developed by: RedHat and Released on: August 2018
+		... Podman is an alternative to docker
+		... Docker is not supported in RHEL 8
+		... It is demon less, open sourcem Linux-native tool designed to develop, manage, and run containers.
+
+RUN CONTAINERS
+
+Getting Familiar with Redhat Container Technology
+
+* Red Hat provides a set of command-line tools that can operate without a container engine, these include:
+
+	podman	- for directly managing pods and container images (run, stop, start, ps, attach, etc.)
+	buildah	- for building, pushing, and signing container images
+	skopeo	- for copying, inspecting, deleting, and signing images
+	runc	- for providing container run and build features to podman and buildah
+	crun	- an optional runtime that can be configured and gives greater flexibility, control, and security for rootless containers.
+
+Getting Familiar with podman Container Technology
+
+* When you hear about containers then you should know the following terms as well:
+
+	images	- containers can be created through images and containers can be converted to images
+	pods	- Group of containers deployed together on the host. In the podman logo there are 3 seals grouped together as a pod.
+
+Building, Running, and Managing Containers
+
+# To install podman
+	$ yum/dnf install podman -y
+	$ yum install docker -y (for docker)
+
+# Check podman version
+	$ podman -v
+
+# Getting help
+	$ podman --help or man podman
+
+# Check podman environment and registry/repository information
+	$ podman info (if you are trying to load a container image, then it will look at the local machine and then go through each registry by the order listed)
+
+# To search a specific image in repository
+	$ podman search httpd
+
+# To list any previously downloaded podman images
+	$ podman images
+
+# To download available images
+	$ podman pull docker.io/library/httpd
+	$ podman images
+
+# To list podman running containers
+	$ podman ps
+
+# To run a downloaded httpd containers
+	$ podman run -dt -p 8080:80/tcp docker.io/library/httpd
+	$ podman ps
+
+# To view podman logs
+	$ podman logs -l
+
+# To stop a running container
+	$ podman stop <container name or id> (con-name from podman ps command)
+	$ podman ps
+
+# To run a multiple containers of httpd by changing the port #
+	$ podman run -dt -p 8081:80/tcp docker.io/library/httpd
+	$ podman run -dt -p 8082:80/tcp docker.io/library/httpd
+
+# To create a new container from the downloaded image
+	$ podman create --name httpd-con docker.io/library/httpd
+
+# To start the newly created container
+	$ podman start httpd-con
+
+
+Manage containers through systemd
+
+# Generate a unit file
+	$ cd /etc/systemd/system
+	$ ls -ltr
+	$ podman generate systemd --new --files --name httpd-con
+
+# Copy it systemd directory
+	$ cp /root/container-httpd.service /etc/systemd/system
+
+# Enale the service
+	$ systemctl enable container-httpd-con.service
+
+# Start the service
+	$ systemctl status container-httpd-con.service
